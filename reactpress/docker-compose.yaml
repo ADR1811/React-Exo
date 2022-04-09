@@ -17,6 +17,8 @@ services:
             MYSQL_DATABASE: db
             MYSQL_USER: root
             MYSQL_ROOT_PASSWORD: password
+        volumes:
+           - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
 
     phpmyadmin:
         image: phpmyadmin
