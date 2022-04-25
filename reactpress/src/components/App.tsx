@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 
-import FormLoginPannel from './FormLoginPannel';
+import ControllerLogin from './ControllerLogin';
 import FormBlog from './FormBlog';
 import AllArticles from './AllArticles';
 import {useState} from 'react';
@@ -16,8 +16,9 @@ function App() {
   return (
     // si aucun cookie token n'existe on affiche <FormLogin>  
     <>
-      {Form === 'Login' ? <FormLoginPannel setForm={setForm}/> : null}
-      {Form === 'Blog' ? <FormBlog setForm={setForm}/> : null}
+      {/* {Form === 'Login' ? <ControllerLogin setForm={setForm} Form={From} /> : null}
+      {Form === 'Blog' ? <FormBlog setForm={setForm}/> : null} */}
+      <ControllerLogin setForm={setForm} Form={Form} />
       <AllArticles/>
     </>
   );

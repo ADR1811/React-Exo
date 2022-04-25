@@ -1,9 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import FormRegister from './Form';
+import FormRegister from './FormRegister';
 
-function FormLogin(props: any) {
+type AppProps = {
+    whereLog: any;
+    setWhereLog: any;
+};
 
+
+function FormLogin({ whereLog ,setWhereLog}: AppProps) {
+    console.log(whereLog);
     const [inputUsername, setinputUsername] = useState<string>('');
     const [inputPassword, setinputPassword] = useState<string>('');
 
@@ -15,7 +21,8 @@ function FormLogin(props: any) {
     };
 
     const handleInscription = (e: any) => {
-        props.setWhereLog('Register');
+        // props.setWhereLog('Register');
+        console.log('whereLog', whereLog);
     };
 
     const submit = (e: any) => {
