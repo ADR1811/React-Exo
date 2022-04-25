@@ -9,22 +9,23 @@ type AppProps = {
 };
 
 
-export default function ControllerLogin({setForm , Form}: AppProps) {
+function ControllerLogin({setForm , Form}: AppProps) {
 
-    // const [whereLog, setWhereLog] = useState<string>('Login');
+    const [whereLog, setWhereLog] = useState<string>('Login');
     
-    // if (whereLog === 'Login') {
-    //     return (
-    //         <>
-    //             <FormLogin setWhereLog={setWhereLog} whereLog={whereLog}/>
-    //         </>
-    //     );
-    // } else {
-    //     return (
-    //         <>
-    //             <FormRegister setWhereLog={setWhereLog} whereLog={whereLog}/>
-    //         </>
-    //     );
-    // }
+    if (whereLog === 'Login') {
+        return (
+            <>
+                <FormLogin setWhereLog={setWhereLog} whereLog={whereLog}/>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <FormRegister setWhereLog={setWhereLog} whereLog={whereLog}/>
+            </>
+        );
+    }
     return(<>oui</>);
 }
+export default ControllerLogin;

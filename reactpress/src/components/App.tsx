@@ -11,17 +11,23 @@ function App() {
   // si le localstorage a un username on mets blog
   // if cookie token setForm('Blog')
   if (document.cookie.includes("token=")) {
-    setForm('Blog');
+    return (
+      <>
+        <FormBlog/>
+        <AllArticles/>
+      </>
+    );
+  }else{
+    return (
+      // si aucun cookie token n'existe on affiche <FormLogin>  
+      <>
+        {/* {Form === 'Login' ? <ControllerLogin setForm={setForm} Form={From} /> : null}
+        {Form === 'Blog' ? <FormBlog setForm={setForm}/> : null} */}
+        <ControllerLogin setForm={setForm} Form={Form} />
+        <AllArticles/>
+      </>
+    );
   }
-  return (
-    // si aucun cookie token n'existe on affiche <FormLogin>  
-    <>
-      {/* {Form === 'Login' ? <ControllerLogin setForm={setForm} Form={From} /> : null}
-      {Form === 'Blog' ? <FormBlog setForm={setForm}/> : null} */}
-      <ControllerLogin setForm={setForm} Form={Form} />
-      <AllArticles/>
-    </>
-  );
 }
 
 export default App;

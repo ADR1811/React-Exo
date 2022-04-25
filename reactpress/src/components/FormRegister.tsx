@@ -1,7 +1,14 @@
 import React from "react";
 import { useState } from "react";
+// import Axios 
+import Axios from "axios";
 
-function FormRegister( props : any ) {
+type AppProps = {
+  whereLog: any;
+  setWhereLog: any;
+};
+
+function FormRegister( {whereLog ,setWhereLog}: AppProps ) {
   const [inputUsername  , setinputUsername] = useState<string >('');
   const [inputPassword  , setinputPassword] = useState<string >('');
 
@@ -12,31 +19,42 @@ function FormRegister( props : any ) {
     setinputPassword(event.target.value);
   };
 
+  const AxiosInstance = Axios.create({ baseURL: "http://localhost:2345" });
+
   const submit = (e:any) => {
     
-    const headers = new Headers({
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": "Basic " + btoa(inputUsername + ":" + inputPassword),
-    });
+    // const headers = new Headers({
+    //   "Content-Type": "application/x-www-form-urlencoded",
+    //   "Authorization": "Basic " + btoa(inputUsername + ":" + inputPassword),
+    // });
+
+
     const body = new URLSearchParams({
       username: inputUsername,
       password: inputPassword,
-      type: props.Form,
+      type: 'Register'
     });
 
-    fetch("http://localhost:2345", {
-      method: "POST",
-      headers: headers,
+    AxiosInstance.post("/",
+    {
+      withCreditentials: true,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Basic " + btoa(inputUsername + ":" + inputPassword),
+      },
       body: body,
       mode: "cors"
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .then(props.setForm('Login'));
-      e.preventDefault();  
+    .then(response => {
+      console.log(response);
+      setWhereLog('Login');
+    })
+    .catch(err => console.log(err));
+
+    e.preventDefault();  
   }
   const handleConnexion = (e:any) => {
-    props.setForm('Login');
+    setWhereLog('Login');
   }
 
   return (
@@ -57,7 +75,7 @@ function FormRegister( props : any ) {
       {/* margin */}
       {/* div flex  */}
       <div className="d-flex justify-content-between align-items-center">
-        <button type="submit" className="btn btn-primary">Sign in</button>
+        <button type="submit" className="btn btn-primary">S'inscrire</button>
 
         <button className="btn btn-primary" onClick={handleConnexion}>Se connecter ?</button>
       </div>

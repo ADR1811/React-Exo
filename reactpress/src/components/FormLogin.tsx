@@ -8,7 +8,7 @@ type AppProps = {
 };
 
 
-function FormLogin({ whereLog ,setWhereLog}: AppProps) {
+function FormLogin({whereLog ,setWhereLog}: AppProps) {
     console.log(whereLog);
     const [inputUsername, setinputUsername] = useState<string>('');
     const [inputPassword, setinputPassword] = useState<string>('');
@@ -21,7 +21,7 @@ function FormLogin({ whereLog ,setWhereLog}: AppProps) {
     };
 
     const handleInscription = (e: any) => {
-        // props.setWhereLog('Register');
+        setWhereLog('Register');
         console.log('whereLog', whereLog);
     };
 
@@ -33,7 +33,7 @@ function FormLogin({ whereLog ,setWhereLog}: AppProps) {
         const body = new URLSearchParams({
             username: inputUsername,
             password: inputPassword,
-            type: props.Form,
+            type: 'Login',
         });
 
         fetch("http://localhost:2345", {
@@ -45,16 +45,19 @@ function FormLogin({ whereLog ,setWhereLog}: AppProps) {
             .then(response => response.json())
             .then(data => {
                 // cookie de 60 Secondes
-                document.cookie = "token=" + data.token + "; max-age=60; path=/";
-                document.cookie = "username=" + data.username + "; max-age=60; path=/";
+                document.cookie = "token=" + data.token + "; max-age=300; path=/";
+                document.cookie = "username=" + data.username + "; max-age=300; path=/";
+                // refresh App.tsx
+                window.location.reload();
+
             })
             .catch(err => console.log(err));
 
         e.preventDefault();
         // if cookie username existe
-        if (document.cookie.includes("token=")) {
-            props.setForm('Blog');
-        }
+            // if (document.cookie.includes("token=")) {
+            //     setForm('Blog');
+            // }
         console.log(document.cookie);
     };
     
