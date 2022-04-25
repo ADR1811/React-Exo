@@ -8,20 +8,22 @@ header('Allow-Credentials: true');
 // echo json_encode($_POST);
 if (isset($_POST)) {
     if ($_POST['type'] == 'Register') {
-
+        $token = uniqid();
         $credentials = array(
             'username' => $_SERVER['PHP_AUTH_USER'],
-            'password' => password_hash($_SERVER['PHP_AUTH_PW'], PASSWORD_DEFAULT)
+            'password' => password_hash($_SERVER['PHP_AUTH_PW'], PASSWORD_DEFAULT),
+            'token' => $token
         );
         echo json_encode($credentials);
         $pdo = new PDO('mysql:host=db;dbname=db;', 'root', 'password');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
-        $sql = "INSERT INTO user (username, password) VALUES (:username, :password)";
+        $sql = "INSERT INTO user (username, password,token ) VALUES (:username, :password, :token)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($credentials);
     } elseif ($_POST['type'] == 'Login') {
+
         $credentials = array(
             'username' => $_SERVER['PHP_AUTH_USER']
         );
@@ -34,7 +36,7 @@ if (isset($_POST)) {
         $stmt->execute($credentials);
         $user = $stmt->fetch();
         if (password_verify($_SERVER['PHP_AUTH_PW'], $user->password)) {
-            echo json_encode(array('username' => $credentials['username']));
+            echo json_encode(array('username' => $credentials['username'], 'token' => $user->token));
         } else {
             header('HTTP/1.0 401 Unauthorized');
             echo json_encode(array('error' => 'Invalid credentials'));

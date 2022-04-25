@@ -9,7 +9,6 @@ services:
             - '2345:80'
         volumes:
             - ./app:/var/www/html
-
     db:
         image: 'mariadb'
         restart: on-failure
@@ -19,9 +18,9 @@ services:
             MYSQL_ROOT_PASSWORD: password
         volumes:
            - ./database/db.sql:/docker-entrypoint-initdb.d/db.sql
-
+    # same version php as dockerfile
     phpmyadmin:
-        image: phpmyadmin
+        image: phpmyadmin:5.1.1   # same version php as dockerfile
         restart: on-failure
         ports:
             - '8080:80'
